@@ -1,0 +1,25 @@
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "16.x"
+    displayName: "Install Node.js"
+
+  - task: DeleteFiles@1
+    inputs:
+      SourceFolder:
+      Contents: "node_modules"
+      RemoveSourceFolder: true
+
+  - script: |
+      dir
+    displayName: "dir"
+
+  - task: AzureStaticWebApp@0
+    inputs:
+      app_location: "/"
+      output_location: "/dist"
+      azure_static_web_apps_api_token: $(deployment_token)
+      production_branch: main
